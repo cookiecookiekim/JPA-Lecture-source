@@ -5,16 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="594c9234-796b-41d8-bb8a-7f4eab14f426" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../chap01-persistence-context/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../chap01-persistence-context/src/main/java/com/ohgiraffers/section01/entitymanager/EntityManagerGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../chap01-persistence-context/src/main/java/com/ohgiraffers/section02/crud/EntityManagerCRUD.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../chap01-persistence-context/src/main/java/com/ohgiraffers/section02/crud/Menu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../chap01-persistence-context/src/test/java/com/ohgiraffers/section02/crud/EntityManagerCRUDTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ohgiraffers/problem/MenuAndCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ohgiraffers/problem/MenuAndCategory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chap01-persistence-context/src/main/java/com/ohgiraffers/section01/entitymanager/EntityManagerFactoryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chap01-persistence-context/src/main/java/com/ohgiraffers/section01/entitymanager/EntityManagerFactoryGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chap01-persistence-context/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../chap01-persistence-context/src/main/resources/META-INF/persistence.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chap01-persistence-context/src/test/java/com/ohgiraffers/section01/entitymanager/EntityManagerGeneratorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chap01-persistence-context/src/test/java/com/ohgiraffers/section01/entitymanager/EntityManagerGeneratorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chap01-persistence-context/src/main/java/com/ohgiraffers/section02/crud/EntityManagerCRUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chap01-persistence-context/src/main/java/com/ohgiraffers/section02/crud/EntityManagerCRUD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chap01-persistence-context/src/test/java/com/ohgiraffers/section02/crud/EntityManagerCRUDTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chap01-persistence-context/src/test/java/com/ohgiraffers/section02/crud/EntityManagerCRUDTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

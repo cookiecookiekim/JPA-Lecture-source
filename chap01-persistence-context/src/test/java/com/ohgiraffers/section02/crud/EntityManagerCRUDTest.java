@@ -10,6 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.Stream;
 
@@ -37,7 +38,7 @@ public class EntityManagerCRUDTest {
                 = crud.getManagerInstance().getTransaction();
 
         // 모든 권한은 매니저에게 entity를 관리하게 넘겨준다.
-        transaction.rollback();
+//        transaction.rollback();
     }
 
     /* comment.
@@ -83,6 +84,24 @@ public class EntityManagerCRUDTest {
 
         // 현재 전체 메뉴가 21개 있으므로 새로운 메뉴 22와 count가 일치하는지 확인
         Assertions.assertEquals(22, count);
+    }
+
+    @ParameterizedTest
+    @DisplayName("메뉴 이름 수정 테스트")
+    @CsvSource("25, 우삼겹백반") // 25번을 우삼겹백반으로 수정하기
+    void modifyTestMenu (int code, String name) {
+        Menu modifyMenu = crud.modifyMenuName(code,name);
+
+        Assertions.assertEquals(name, modifyMenu.getMenuName()); // name과 수정 됐을 때 이름이 일치하는지 확인
+    }
+
+    @ParameterizedTest
+    @DisplayName("메뉴 코드로 메뉴 삭제")
+    @ValueSource(ints = {25})
+    void testRemoveMenu (int code) {
+        Long count = crud.removeAndReturnCount(code);
+
+        Assertions.assertEquals(22, count); // 25번 삭제하고 전체 개수가 22개가 맞는지
     }
 
 }
