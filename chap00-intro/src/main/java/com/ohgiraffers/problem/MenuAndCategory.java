@@ -1,6 +1,6 @@
 package com.ohgiraffers.problem;
 
-public class MenuAndCategory {
+public class MenuAndCategory { // menu를 기준으로
 
     private int menuCode;
     private String menuName;
