@@ -24,10 +24,10 @@ public class ProblemTests {
         // DB 와 접속하기 위한 통로에 우리 DB 정보 전달
         Class.forName(driver);
         con = DriverManager.getConnection(url, user, password);
-        con.setAutoCommit(false);
+        con.setAutoCommit(false); // 수동 커밋
     }
 
-    @AfterEach
+    @AfterEach // 제일 마지막에 동작
     void closeConnection() throws SQLException {
         System.out.println("AfterEach 동작하니?");
         con.rollback();
@@ -71,7 +71,8 @@ public class ProblemTests {
          *   메소드를 제공해준다.
          *  */
 
-        Assertions.assertNotNull(menuList);
+        Assertions.assertNotNull(menuList); // null이 아닌 애들 보여달라.
+                     // assertNull이면 null인 애들인데 null인 애들이 없어서 에러? 비슷하게 남
 
         menuList.forEach(menu -> System.out.println(menu));
 
@@ -80,7 +81,7 @@ public class ProblemTests {
     }
 
     /* index. 2. SQL 의존적인 개발 */
-
+    // 이렇게 되면 전체 다 뜯어 고쳐야 함.
     /* comment.
      *   고객 즉 클라이언트 측에서 요구사항이 변했을 때
      *   EX) 메뉴 이름에서 메뉴 가격만 조회하는 걸로 수정해주세요~
@@ -96,6 +97,7 @@ public class ProblemTests {
      *  */
 
     /* index. 4. 동일성 보장의 문제 */
+    // 내가 쿼리문 수정했는데 다른 사람에게는 적용이 되지 않아, 문제 되는 상황
     @Test
     @DisplayName("조회한 두 개의 행을 담은 객체의 동일성 비교")
     void testEquals() throws SQLException {
@@ -124,15 +126,15 @@ public class ProblemTests {
             menu2.setMenuName(rset2.getString("MENU_NAME"));
         }
 
-        System.out.println(menu1.hashCode());
-        System.out.println(menu2.hashCode());
+        System.out.println(menu1.hashCode()); // 위와 아래의 해쉬코드 다름 → 같은 쿼리지만 다른 애들이다
+        System.out.println(menu2.hashCode()); // 위와 아래의 해쉬코드 다름 → 같은 쿼리지만 다른 애들이다
 
         /* comment.
          *   동일한 DB 에서 같은 ROW 에 해당하는 데이터를 꺼냈는데
          *   각기 다른 객체에 담았을 때 생기는 동일성 보장 실패
          *   -> 수정 시 다른 곳에서는 파악이 불가능!!!!!!
          *  */
-        Assertions.assertFalse(menu1 == menu2);
+        Assertions.assertFalse(menu1 == menu2); // false라면 true
 
         rset1.close();
         rset2.close();

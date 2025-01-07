@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?> <!-- 지금 설정들은 나중엔 보이지 않음. 알고만 넘어가기 -->
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+    <persistence-unit name="jpatest"> <!-- persistence의 유닛을 생성 -->
+        <properties>
+            <!-- comment. 영속성 컨텍스트로 만들 DB 테이블 정의 -->
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/menudb"/>
+            <property name="jakarta.persistence.jdbc.user" value="ohgiraffers"/>
+            <property name="jakarta.persistence.jdbc.password" value="ohgiraffers"/>
+            <!-- comment. JPA 내부적으로 동작하는 SQL 문을 보기 위한 설정 추가 -->
+            <property name="hibernate.show_sql" value="true"/> <!-- 실제 동작하는 sql문 보여달라는 설정 -->
+            <property name="hibernate.format_sql" value="true"/> <!-- 이거 안 하면 결과 볼 때 개행 안 해주고 안 예쁘게 나옴 -->
+        </properties>
+    </persistence-unit>
+</persistence>
