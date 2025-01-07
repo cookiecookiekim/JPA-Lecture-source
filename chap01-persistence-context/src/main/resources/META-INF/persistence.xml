@@ -2,6 +2,7 @@
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
     <persistence-unit name="jpatest"> <!-- persistence의 유닛을 생성 -->
         <class>com.ohgiraffers.section02.crud.Menu</class> <!-- Menu 정보 등록 -->
+        <class>com.ohgiraffers.section03.entity.Menu</class> <!-- Menu 정보 등록 -->
         <properties>
             <!-- comment. 영속성 컨텍스트로 만들 DB 테이블 정의 -->
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
@@ -13,4 +14,5 @@
             <property name="hibernate.format_sql" value="true"/> <!-- 이거 안 하면 결과 볼 때 개행 안 해주고 안 예쁘게 나옴 -->
         </properties>
     </persistence-unit>
+
 </persistence>
