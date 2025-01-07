@@ -34,7 +34,7 @@ public class LifeCycleTest {
                 ,foundMenu.getOrderableStatus()
         );
 
-        Assertions.assertNotEquals(foundMenu , newMenu); // 둘이 다르다!
+        Assertions.assertNotEquals(foundMenu , newMenu); // 둘이 다르다! neMenu는 또 다른 객체를 생성해서 담아준 거니까!!!
     }
 
     @ParameterizedTest
