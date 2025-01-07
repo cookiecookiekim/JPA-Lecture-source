@@ -95,4 +95,71 @@ public class LifeCycleTest {
                                         // foundMenu.getMenuPrice()라고 적으면 같다고 나옴
         transaction.rollback();
     }
+
+    @ParameterizedTest
+    @DisplayName("준영속화 detach 후 재 영속화(merge) 테스트")
+    @CsvSource({"11, 1000", "12, 1000"})
+    void testDetachAndPersist(int menuCode, int menuPrice){ // detach 했던 걸 다시 관리하겠다.
+        EntityManager manager = EntityManagerGenerator.getInstance();
+
+        EntityTransaction transaction
+                = manager.getTransaction(); // 트랜잭션도 열어줘보기.
+
+        Menu foundMenu = manager.find(Menu.class, menuCode);
+
+        transaction.begin();
+
+        // detach : 특정 엔티티만 준영속 상태(관리하지 않은 상턔)
+        manager.detach(foundMenu); // 영속 컨택스트에서 빼겠다.
+        foundMenu.setMenuPrice(menuPrice);
+
+        // merger : 관리하지 않는 엔티티를 다시 관리 요청
+        manager.merge(foundMenu);
+        /* comment.
+        *   파라미터로 넘어온 foundMenu 준영속 엔티티 객체의 식별자 값으로
+        *   1차 캐시에서 조회, 만약 1차 캐시에 엔티티가 없으면
+        *   DB에서 엔티티 조회 후 1차 캐시에 저장한다.
+        *   조회한 영속 엔티티 객체에 준영속 상태의 엔티티 객체의 값을 병합(merge)
+        *   한 뒤 영속 엔티티 객체를 반환하게 된다. */
+        manager.flush();
+
+        Assertions.assertEquals(menuPrice, manager.find(Menu.class,menuCode).getMenuPrice());
+        // foundMenu.getMenuPrice()라고 적으면 같다고 나옴
+        transaction.rollback();
+    }
+
+    @ParameterizedTest
+    @DisplayName("영속성 엔티티 삭제 remove 테스트")
+    @ValueSource(ints = {1})
+    void testRemoveEntity(int menuCode){
+        EntityManager manager = EntityManagerGenerator.getInstance();
+
+        EntityTransaction transaction
+                = manager.getTransaction();
+
+        // 매니저에게 메뉴 코드로 메뉴 찾아달라고 하기
+        Menu foundMenu = manager.find(Menu.class , menuCode);
+
+        transaction.begin();
+
+        /* comment. remove() 엔티티를 영속성 컨텍스트 및 DB에서 제거한다.
+        *   단, 트렌젝션을 제어하지 않으면 DB에 영구 반영되지는 않는다.
+        *   트렌잭션을 커밋, 플러시 하는 순간 영속성 컨텍스트에서
+        *   관리하는 엔티티 객체를 DB에 반영하게 된다. */
+
+        manager.remove(foundMenu);
+
+        // remove 반영을 위한 flush
+        manager.flush();
+        // DB에 전달은 되지만, commit하지는 않았으므로 실제 반영은 안 됨!!
+        // commit에 flush가 내부적으로 포함돼 있기 때문에 db 저장할거면
+        // 굳이 flush 안 하고 commit만 해도 됨.
+
+        // 같은 메뉴 코드로 동일한 데이터 찾아지는지 확인
+        Menu reFoundMenu = manager.find(Menu.class, menuCode);
+        // 삭제가 반영 됐을 거라 예상
+
+        Assertions.assertNull(reFoundMenu); // reFoundMenu가 null인지 확인
+    }
+
 }
