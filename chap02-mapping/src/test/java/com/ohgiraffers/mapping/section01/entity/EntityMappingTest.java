@@ -70,7 +70,7 @@ public class EntityMappingTest {
         // 메서드 검증시 사용하는 메서드, 해당 메서드가 Throw 예외를 발생시키는지 확인
         Assertions.assertDoesNotThrow(
                 () -> memberService.registMember(newMember)
-        );
+        ); // run 돌리고 확인해 보면 실제로 테이블이 생성돼 있음!
     }
 
 }

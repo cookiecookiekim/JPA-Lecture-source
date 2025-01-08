@@ -58,6 +58,17 @@ public class Member {
 
     public Member() {}
 
+    public Member(String memberId, String memberPwd, String memberName, String phone, String address, LocalDateTime enrollDate, MemberRole memberRole, String status) {
+        this.memberId = memberId;
+        this.memberPwd = memberPwd;
+        this.memberName = memberName;
+        this.phone = phone;
+        this.address = address;
+        this.enrollDate = enrollDate;
+        this.memberRole = memberRole;
+        this.status = status;
+    }
+
     // no 빼고 모든 필드를 초기화 하는 생성자 생성
 
 }
