@@ -32,4 +32,8 @@ public class ManyToOneRepository {
                 .setParameter("menuCode", menuCode) // :menuCode 설정
                 .getSingleResult(); // 쿼리문(결과)이 하나이므로 설정
     } // 단점, 가독성이 좋지 못하다 → 이거 극복한 기술 존재
+
+    public void regist(Menu menu) {
+        manager.persist(menu);
+    }
 }

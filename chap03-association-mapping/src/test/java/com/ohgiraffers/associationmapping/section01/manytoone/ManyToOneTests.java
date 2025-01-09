@@ -95,6 +95,6 @@ public class ManyToOneTests {
         );
         Assertions.assertDoesNotThrow(
                 () -> service.registMenu(menuInfo)
-        );
+        ); // insert 시, category가 먼저 insert 되고 그 이후에 menu insert
     }
 }

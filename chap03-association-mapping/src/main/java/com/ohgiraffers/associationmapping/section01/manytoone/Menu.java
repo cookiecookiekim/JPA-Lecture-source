@@ -15,7 +15,7 @@ public class Menu {
 
     @Id
     @Column(name = "menu_code")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY) none 해놔서 이거 있으면 에러
     private int menuCode;
 
     @Column(name = "menu_name")

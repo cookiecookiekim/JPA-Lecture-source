@@ -26,12 +26,13 @@ public class ManyToOneService {
                 menuInfo.getMenuCode()
                 ,menuInfo.getMenuName()
                 ,menuInfo.getMenuPrice()
-                ,new Category(
+                ,new Category( // 지금 dto를 엔티티로 바꾸는 게 복잡한데 쉽게하는 건 나중에
                         menuInfo.getCategoryDTO().getCategoryCode()
                         ,menuInfo.getCategoryDTO().getCategoryName()
                         ,menuInfo.getCategoryDTO().getRefCategoryCode()
         ),
                 menuInfo.getOrderableStatus()
         );
+        repository.regist(menu);
     }
 }
