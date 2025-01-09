@@ -13,7 +13,7 @@ public class CartService {
     @Transactional
     public void addItemToCart(CartDTO cart) {
         Cart newCart = new Cart(
-                cart.getCartOwnerMemberNo(),
+                cart.getCartOwnerNo(),
                 cart.getAddedBookNo(),
                 cart.getQuantity()
         );

@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 public class CartDTO {
 
-    private int cartOwnerMemberNo;
+    private int cartOwnerNo;
     private int addedBookNo;
     private int quantity;
 }

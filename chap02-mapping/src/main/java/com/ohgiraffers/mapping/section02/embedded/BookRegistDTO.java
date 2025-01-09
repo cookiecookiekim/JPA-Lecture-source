@@ -17,5 +17,5 @@ public class BookRegistDTO { // DTO는 화면에서 받아올 데이터 위주�
     private LocalDate createdDate;
     private int regularPrice;
     private double discountRate;
-
+// sell_price는 안쓰니까 제외
 }
