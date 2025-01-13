@@ -33,6 +33,12 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+	// 서비스에서 컨트롤러로 보낼 때 DTO화 시켜 보내야 하는데 거기에 쓰이는 유용한 기능
+	// → BeanConfig 에서 추가 설정
+	implementation 'org.modelmapper:modelmapper:3.1.1'
+
 }
 
 tasks.named('test') {

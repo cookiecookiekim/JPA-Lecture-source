@@ -3,7 +3,6 @@ package com.ohgiraffers.springdatajpa.menu.controller;
 import com.ohgiraffers.springdatajpa.menu.model.dto.MenuDTO;
 import com.ohgiraffers.springdatajpa.menu.model.service.MenuService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +20,12 @@ public class MenuController {
 
 //    public MenuController (MenuService menuService) {
 //        this.menuService = menuService;
-//    } @RequiredArgsConstructor 이걸 해놨기 때문에 생성자 작성 안 해도 됨.
+//    } → @RequiredArgsConstructor 이걸 해놨기 때문에 생성자 작성 안 해도 됨.
 
     // 경로를 타고 넘오오는 변수로 받기
     @GetMapping("/{menuCode}") // PathVariable
     public String findMenuByPathVariable(@PathVariable int menuCode,Model model){
+        // entity가 dto로 변한 값을 resultMenu에 대입
         MenuDTO resultMenu = menuService.findMenuByMenuCode(menuCode);
 
         model.addAttribute("result", resultMenu);
