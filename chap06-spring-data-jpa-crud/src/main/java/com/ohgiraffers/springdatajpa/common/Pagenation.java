@@ -2,7 +2,7 @@ package com.ohgiraffers.springdatajpa.common;
 
 import org.springframework.data.domain.Page;
 
-public class Pasenation {
+public class Pagenation {
 
     // 공통적으로 사용할 페이징 정보 기술
     // ex) 첫 페이지 번호 , 페이지에 해당하는 데이터 수 등등
@@ -17,6 +17,8 @@ public class Pasenation {
         int defaultButtonCount = 10; // 1~10 or 2~11 ....
 
         // 현재 시작 페이지 계산
+        // Math.ceil((double)currentPage / defaultButtonCount) -1 이 부분 항상 0
+        // → 시작 페이지가 항상 1이라는 뜻.
         int startPage = (int) (Math.ceil((double)currentPage / defaultButtonCount) -1)
                         * defaultButtonCount + 1;
 

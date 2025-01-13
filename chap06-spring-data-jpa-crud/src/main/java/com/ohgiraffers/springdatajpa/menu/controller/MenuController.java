@@ -1,5 +1,7 @@
 package com.ohgiraffers.springdatajpa.menu.controller;
 
+import com.ohgiraffers.springdatajpa.common.PagingButton;
+import com.ohgiraffers.springdatajpa.common.Pagenation;
 import com.ohgiraffers.springdatajpa.menu.model.dto.MenuDTO;
 import com.ohgiraffers.springdatajpa.menu.model.service.MenuService;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/menu")
@@ -54,8 +54,15 @@ public class MenuController {
         log.info("총 페이지 수 : {}", menuList.getTotalPages());
         log.info("총 메뉴의 수 : {}", menuList.getTotalElements());
         log.info("해당 페이지에 표현될 요소의 수 : {}", menuList.getSize());
+        log.info("첫 페이지 여부 : {}", menuList.isFirst());
+        log.info("마지막 페이지 여부 : {}", menuList.isLast());
+        log.info("정렬 방식 : {}", menuList.getSort());
+        log.info("여러 페이지 중 현재 인덱스 : {}", menuList.getNumber());
 
-        model.addAttribute("menuList", menuList);
+        PagingButton pagingButton = Pagenation.getPagingInfo(menuList);
+
+        model.addAttribute("menus", menuList);
+        model.addAttribute("paging", pagingButton);
         return "menu/list";
     }
 }
