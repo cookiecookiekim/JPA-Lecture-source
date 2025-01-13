@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ public class MenuService {
     private final ModelMapper modelMapper;
 
     private final CategoryRepository categoryRepository;
+    private final MenuRepository menuRepository;
 
     /* 1. 메뉴 코드로 특정 메뉴 조회하기 */
     public MenuDTO findMenuByMenuCode(int menuCode) {
@@ -92,6 +94,46 @@ public class MenuService {
 
         List<Category> categoryList
                 = categoryRepository.findAllCategory();
-        return null;
+        System.out.println("서비스 categoryList = " + categoryList);
+        return categoryList.stream().map(
+                category -> modelMapper.map(category, CategoryDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void registNewMenu(MenuDTO newMenu) {
+
+        Menu insertMenu = new Menu(newMenu.getMenuCode(),
+                newMenu.getMenuName(), newMenu.getMenuPrice(),
+                newMenu.getCategoryCode(),
+                newMenu.getOrderableStatus());
+// save 메서드를 통해 insert 시 정수 값 반환되지 않음
+        // 정수값 반환 받으려면 직접 native 쿼리로 작성해야 함
+        menuRepository.save(insertMenu);
+    }
+
+    @Transactional // 인서트하고 정수 반환받아보고 싶어서 해봤는데 비효율적.. 컷
+    public int registNewMenu2(MenuDTO newMenu) {
+
+        Menu insertMenu2 = new Menu(
+                newMenu.getMenuCode(),
+                newMenu.getMenuName(),
+                newMenu.getMenuPrice(),
+                newMenu.getCategoryCode(),
+                newMenu.getOrderableStatus()
+        );
+
+        System.out.println("insertMenu2 = " + insertMenu2);
+        int result = menuRepository.insertNewMenu2(insertMenu2);
+
+        System.out.println("result = " + result);
+        return result >= 1 ? 1 : 0;
+    }
+
+    @Transactional
+    public void deleteService(int menuCode) {
+
+        Menu menu = menuRepository.findById(menuCode).orElseThrow();
+        menuRepository.delete(menu);
     }
 }

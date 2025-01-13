@@ -69,7 +69,6 @@ public class MenuController {
 
     @GetMapping("/querymethod")
     public void queryMethodPage() { // void로 할 시 요청 주소 자체가 view 페이지 주소가 된다.
-
     }
 
     @GetMapping("/search")
@@ -83,15 +82,45 @@ public class MenuController {
     }
 
     @GetMapping("/regist")
-    public void registPagfe(){}
+    public void registPagfe() {
+    }
 
-    @GetMapping(value = "/category" , produces = "application/json; charset=UTF-8")
+    @GetMapping("/regist2")
+    public void registPagfe2() {
+    }
+
+    @GetMapping(value = "/category", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public List<CategoryDTO> findCategoryList(){
+    public List<CategoryDTO> findCategoryList() {
+        // return 구문이 view 지정하는 것이 아닌, Data를 리턴한다
         return menuService.findAllCategory(); // 카테고리 정보 반환하는 애
     }
 
-//    public String asd (@ModelAttribute MenuDTO menuDTO) {
-//
-//    }
+    @PostMapping("/regist")
+    public void newMenuRegist(@ModelAttribute MenuDTO newMenu) {
+
+        menuService.registNewMenu(newMenu);
+
+    }
+
+    @PostMapping("/regist2") // 정수 반환받아보고 싶어서 해봤는데 완전 비효율적. 캇트
+    public String newMenuRegist2(@ModelAttribute MenuDTO newMenu) {
+
+        System.out.println("newMenu = " + newMenu);
+        int result = menuService.registNewMenu2(newMenu);
+
+        if (result >= 1) {
+            return "menu/regist2";
+        } else {
+            return "main/main";
+        }
+    }
+
+    @GetMapping("/delete")
+    public void deletePage(){}
+
+    @PostMapping("/delete")
+    public void deleteMenuCode(@RequestParam int menuCode){
+        menuService.deleteService(menuCode);
+    }
 }

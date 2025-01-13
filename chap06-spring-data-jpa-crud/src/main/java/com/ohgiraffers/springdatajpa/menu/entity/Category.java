@@ -21,7 +21,7 @@ public class Category {
     @Column(name = "category_code")
     private int categoryCode;
 
-    @Column(name = "categort_name")
+    @Column(name = "category_name")
     private String categoryName;
 
     @Column(name = "ref_category_code")
