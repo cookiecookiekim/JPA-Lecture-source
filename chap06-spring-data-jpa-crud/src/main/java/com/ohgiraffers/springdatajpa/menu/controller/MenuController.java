@@ -2,6 +2,7 @@ package com.ohgiraffers.springdatajpa.menu.controller;
 
 import com.ohgiraffers.springdatajpa.common.PagingButton;
 import com.ohgiraffers.springdatajpa.common.Pagenation;
+import com.ohgiraffers.springdatajpa.menu.model.dto.CategoryDTO;
 import com.ohgiraffers.springdatajpa.menu.model.dto.MenuDTO;
 import com.ohgiraffers.springdatajpa.menu.model.service.MenuService;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/menu")
@@ -31,7 +32,7 @@ public class MenuController {
 
     // 경로를 타고 넘오오는 변수로 받기
     @GetMapping("/{menuCode}") // PathVariable
-    public String findMenuByPathVariable(@PathVariable int menuCode,Model model){
+    public String findMenuByPathVariable(@PathVariable int menuCode, Model model) {
         // entity가 dto로 변한 값을 resultMenu에 대입
         MenuDTO resultMenu = menuService.findMenuByMenuCode(menuCode);
 
@@ -40,15 +41,15 @@ public class MenuController {
     }
 
     @GetMapping("/list") // 메뉴 전체 조회하기
-    public String findAllMenu (Model model , @PageableDefault Pageable pageable) {
+    public String findAllMenu(Model model, @PageableDefault Pageable pageable) {
         // 페이징 처리하지 않은 findAll();
 //        List<MenuDTO> menuList = menuService.findeMenuList();
 //        model.addAttribute("menus", menuList);
 
         // 매개 변수로 담는 pageable에 뭐가 담겨 있을까 log
-        log.info("pageable : {}" , pageable);
+        log.info("pageable : {}", pageable);
 
-        Page<MenuDTO> menuList = menuService.findeMenuListByPaging(pageable);
+        Page<MenuDTO> menuList = menuService.findMenuListByPaging(pageable);
 
         log.info("조회한 내용 목록 : {}", menuList.getContent());
         log.info("총 페이지 수 : {}", menuList.getTotalPages());
@@ -65,4 +66,32 @@ public class MenuController {
         model.addAttribute("paging", pagingButton);
         return "menu/list";
     }
+
+    @GetMapping("/querymethod")
+    public void queryMethodPage() { // void로 할 시 요청 주소 자체가 view 페이지 주소가 된다.
+
+    }
+
+    @GetMapping("/search")
+    public String findByMenuPrice(@RequestParam int menuPrice, Model model) {
+        List<MenuDTO> menuList = menuService.findByMenuPrice(menuPrice);
+
+        model.addAttribute("menuList", menuList);
+        model.addAttribute("price", menuPrice); // 화면에서 넘어온 가격도 다시 넘겨줌
+
+        return "menu/searchResult";
+    }
+
+    @GetMapping("/regist")
+    public void registPagfe(){}
+
+    @GetMapping(value = "/category" , produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public List<CategoryDTO> findCategoryList(){
+        return menuService.findAllCategory(); // 카테고리 정보 반환하는 애
+    }
+
+//    public String asd (@ModelAttribute MenuDTO menuDTO) {
+//
+//    }
 }

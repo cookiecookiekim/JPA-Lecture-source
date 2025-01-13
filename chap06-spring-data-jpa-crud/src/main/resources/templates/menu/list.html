@@ -40,6 +40,7 @@
         <</button>
 
         <!-- 숫자 페이지 버튼 -->
+        <!-- #는 유틸리티 객체 참조, 동적으로 숫자 버튼 생성 -->
         <th:block th:each="page : ${#numbers.sequence(paging.startPage, paging.endPage)}">
             <button th:onclick="'location.href=\'/menu/list?page=' + ${page} + '\''"
             th:text="${page}"

@@ -1,7 +1,10 @@
 package com.ohgiraffers.springdatajpa.menu.model.service;
 
+import com.ohgiraffers.springdatajpa.menu.entity.Category;
 import com.ohgiraffers.springdatajpa.menu.entity.Menu;
+import com.ohgiraffers.springdatajpa.menu.model.dao.CategoryRepository;
 import com.ohgiraffers.springdatajpa.menu.model.dao.MenuRepository;
+import com.ohgiraffers.springdatajpa.menu.model.dto.CategoryDTO;
 import com.ohgiraffers.springdatajpa.menu.model.dto.MenuDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,6 +24,8 @@ public class MenuService {
     private final MenuRepository repository;
     // Bean으로 등록한 modelMapper 의존성 주입
     private final ModelMapper modelMapper;
+
+    private final CategoryRepository categoryRepository;
 
     /* 1. 메뉴 코드로 특정 메뉴 조회하기 */
     public MenuDTO findMenuByMenuCode(int menuCode) {
@@ -60,16 +65,33 @@ public class MenuService {
     }
 
     /* 페이징 처리를 한 메뉴 전체 조회 */
-    public Page<MenuDTO> findeMenuListByPaging(Pageable pageable) {
+    public Page<MenuDTO> findMenuListByPaging(Pageable pageable) {
 
-        pageable = PageRequest.of(
+        pageable = PageRequest.of( // 페이지 번호를 0 기반으로 조정
                 pageable.getPageNumber() <= 0 ? 0 : pageable.getPageNumber() - 1
-                ,pageable.getPageSize()
-                ,Sort.by("menuCode").descending()
+                ,pageable.getPageSize() // 한 페이지에 포함될 데이터 개수
+                ,Sort.by("menuCode").descending() // 내림차수 정렬
         );
         Page<Menu> menuList = repository.findAll(pageable);
         return menuList.map(
                 menu -> modelMapper.map(menu, MenuDTO.class)
         );
+    }
+
+    public List<MenuDTO> findByMenuPrice(int menuPrice) {
+                  // 해당 가격을 초과하는 애들 찾는... 메서드 구문 (JPA 제공 메서드)
+        List<Menu> menuList = repository.findByMenuPriceGreaterThanOrderByMenuPrice(menuPrice);
+        // 단점이 조건 증가할 경우 메서드명이 엄청 길어지는데 가독성이 안 좋음
+        // → 그럴 경우에는 native query를 이용하여 직접 작성하는 게 낫다.
+        return menuList.stream().map(
+                menu -> modelMapper.map(menu, MenuDTO.class))
+                                    .collect(Collectors.toList());
+    }
+
+    public List<CategoryDTO> findAllCategory() {
+
+        List<Category> categoryList
+                = categoryRepository.findAllCategory();
+        return null;
     }
 }

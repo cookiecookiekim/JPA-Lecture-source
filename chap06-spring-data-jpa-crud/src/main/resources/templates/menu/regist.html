@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>신규 메뉴 등록</h1>
+    <form action="/menu/regist" method="post">
+
+        <label>메뉴 이름 : </label>
+        <input type="text" name="menuName"> <!-- DTO 필드와 맞춰주기 -->
+        <label>메뉴 가격 : </label>
+        <input type="number" name="menuPrice"> <!-- DTO 필드와 맞춰주기 -->
+
+        <label>카테고리 : </label> <!-- 내부에서 조회한 값을 넣어주기 (script에 fetch) -->
+        <select name="categoryCode" id="categoryCode">
+
+        </select>
+        <label>판매 여부 : </label>
+        <select name="orderableStatus">
+            <option value="Y">가능</option>
+            <option value="N">불가능</option>
+        </select><br>
+        <input type="submit" value="등록하기">
+    </form>
+
+    <script>
+        // 서버에 카테고리 가져오게 요청 보내기
+        fetch('/menu/category')
+    </script>
+</body>
+</html>
