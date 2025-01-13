@@ -73,7 +73,7 @@ public class ManyToOneTests {
                 insert 하는 쿼리문이 동작하게 된다.
           단, 고려할 점은 영속성 전이이다.
           메뉴 엔티티를 insert 시 PERSIST 속성으로 인해
-          카테고리 엔티티도 insert를 시켜야 한다는 의미이다.*/
+          카테고리 엔티티도 insert를 시켜야 한다는 의미이다. */
 
     private static Stream<Arguments> getInfo() {
         return Stream.of(Arguments.of(100, "돈까스덮밥",

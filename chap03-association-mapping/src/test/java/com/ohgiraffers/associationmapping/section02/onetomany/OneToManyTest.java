@@ -19,7 +19,7 @@ public class OneToManyTest {
 
         Category category = service.findCategory(categoryCode);
 
-        System.out.println(category.getMenuList());
+        System.out.println("category.getMenuList()" + category.getMenuList());
 
         Assertions.assertNotNull(category);
     }
