@@ -27,7 +27,6 @@ public class MenuService {
     private final ModelMapper modelMapper;
 
     private final CategoryRepository categoryRepository;
-    private final MenuRepository menuRepository;
 
     /* 1. 메뉴 코드로 특정 메뉴 조회하기 */
     public MenuDTO findMenuByMenuCode(int menuCode) {
@@ -109,7 +108,7 @@ public class MenuService {
                 newMenu.getOrderableStatus());
 // save 메서드를 통해 insert 시 정수 값 반환되지 않음
         // 정수값 반환 받으려면 직접 native 쿼리로 작성해야 함
-        menuRepository.save(insertMenu);
+        repository.save(insertMenu);
     }
 
     @Transactional // 인서트하고 정수 반환받아보고 싶어서 해봤는데 비효율적.. 컷
@@ -124,7 +123,7 @@ public class MenuService {
         );
 
         System.out.println("insertMenu2 = " + insertMenu2);
-        int result = menuRepository.insertNewMenu2(insertMenu2);
+        int result = repository.insertNewMenu2(insertMenu2);
 
         System.out.println("result = " + result);
         return result >= 1 ? 1 : 0;
@@ -133,7 +132,7 @@ public class MenuService {
     @Transactional
     public void deleteService(int menuCode) {
 
-        Menu menu = menuRepository.findById(menuCode).orElseThrow();
-        menuRepository.delete(menu);
+        Menu menu = repository.findById(menuCode).orElseThrow();
+        repository.delete(menu);
     }
 }
