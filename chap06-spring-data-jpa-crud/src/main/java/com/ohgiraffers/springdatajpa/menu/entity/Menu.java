@@ -10,7 +10,7 @@ import lombok.*;
 @ToString
 @Getter // @Setter 빼고 기본 세팅
 
-@Builder(toBuilder = true) // update 2번째 방식
+//@Builder(toBuilder = true) // update 2번째 방식
 public class Menu {
 
     @Id
@@ -30,9 +30,19 @@ public class Menu {
     @Column(name = "orderable_status")
     private String orderableStatus;
 
-    // 지양하지만 setter 함수로 메뉴 수정하는 방법
+    // update 방법 1 :지양하지만 setter 함수로 메뉴 수정하는 방법
     // foundMenu.setMenuName(modifyMenu.getMenuName());
-    public void setMenuName(String menuName) {
-        this.menuName = menuName; // DTO의 menuName을 Entity화
+//    public void setMenuName(String menuName) {
+//        this.menuName = menuName; // DTO의 menuName을 Entity화
+//    }
+
+    /* 3. Builder 패턴 직접 구현 */
+    public Menu menuName(String var){ // 변수 하나 받는다고 가정
+        this.menuName = var;
+        return this; // 예를들어 이름 들어오면 코드, 가격 등 동일한데 이름만 바뀐 채로 리턴
+                // 온 애들로 덮어 씌우고 리턴해주는 방식
+    }
+    public Menu builder(){
+        return new Menu(menuCode,menuName,menuPrice,categoryCode,orderableStatus);
     }
 }

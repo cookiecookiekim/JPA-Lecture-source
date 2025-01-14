@@ -139,10 +139,13 @@ public class MenuService {
     }
 
     @Transactional
-    public void deleteService(int menuCode) {
+    public void deleteMenu(int menuCode) {
 
-        Menu menu = repository.findById(menuCode).orElseThrow();
-        repository.delete(menu);
+//        Menu menu = repository.findById(menuCode)
+//                .orElseThrow(IllegalArgumentException::new);
+//        repository.delete(menu);  찾아서 하는 건 복잡
+
+        repository.deleteById(menuCode);
     }
 
     @Transactional
@@ -167,6 +170,17 @@ public class MenuService {
 //        System.out.println("setter 사용 후 foundMenu = " + foundMenu);
         // → menuName만 수정된 이름으로 변경
 
-        /* 2. @Builder를 통해 update 기능 : Menu → @Builder */
+        /* 2. @Builder를 통해 update 기능 : Menu의 @Builder */
+//        foundMenu = foundMenu.toBuilder()
+//                .menuName(modifyMenu.getMenuName())
+//                .build();
+//        // build를 통해서 foundMenu 새롭게 탄생시켰으니 save 메소드를 통해 JPA에게 전달
+//        repository.save(foundMenu);
+
+        /* 3. Entity 내부에 Builder 패턴을 구현 : Menu의 menuName,builder 메서드 */
+        // comment → 2번 방식이 가장 편한 방식인데 내부적으로 3번 처럼 돌고 있다고 인지
+        foundMenu = foundMenu.menuName(modifyMenu.getMenuName())
+                .builder();
+        repository.save(foundMenu);
     }
 }

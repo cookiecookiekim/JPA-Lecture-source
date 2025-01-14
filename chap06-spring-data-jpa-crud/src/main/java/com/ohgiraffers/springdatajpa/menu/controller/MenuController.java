@@ -119,24 +119,27 @@ public class MenuController {
         }
     }
 
-    @GetMapping("/delete")
-    public void deletePage() {
-    }
-
-    @PostMapping("/delete")
-    public void deleteMenuCode(@RequestParam int menuCode) {
-        menuService.deleteService(menuCode);
-    }
-
     @GetMapping("/modify")
     public void modifyPage() {
     }
 
     @PostMapping("/modify")
-    public String modifyMenu(@ModelAttribute MenuDTO modifyMenu){
+    public String modifyMenu(@ModelAttribute MenuDTO modifyMenu) {
         System.out.println("수정할 정보 modifyMenu 잘 넘어오는지 = " + modifyMenu);
         menuService.modifyMenu(modifyMenu);
 
-        return "menu/modify";
+        return "redirect:/menu/" + modifyMenu.getMenuCode();
+        // 수정되면 url이 menu/수정 코드 → @GetMapping("/{menuCode}") 이쪽 페이지로 가게
+    }
+
+    @GetMapping("/delete")
+    public void deletePage() {
+    }
+
+    @PostMapping("/delete")
+    public String deleteMenu(@RequestParam int menuCode) {
+        menuService.deleteMenu(menuCode);
+
+        return "redirect:/menu/list";
     }
 }
