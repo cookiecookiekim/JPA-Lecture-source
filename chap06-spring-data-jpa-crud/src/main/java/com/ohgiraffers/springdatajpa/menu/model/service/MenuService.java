@@ -99,16 +99,25 @@ public class MenuService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
+//    @Transactional // 이건 내가 한 인서트 방식
+//    public void registNewMenu(MenuDTO newMenu) {
+//
+//        Menu insertMenu = new Menu(newMenu.getMenuCode(),
+//                newMenu.getMenuName(), newMenu.getMenuPrice(),
+//                newMenu.getCategoryCode(),
+//                newMenu.getOrderableStatus());
+//        // save 메서드를 통해 insert 시 정수 값 반환되지 않음
+//        // 정수값 반환 받으려면 직접 native 쿼리로 작성해야 함
+//        repository.save(insertMenu);
+//    }
+
+    @Transactional // 25-01-14 (화) 1교시
     public void registNewMenu(MenuDTO newMenu) {
 
-        Menu insertMenu = new Menu(newMenu.getMenuCode(),
-                newMenu.getMenuName(), newMenu.getMenuPrice(),
-                newMenu.getCategoryCode(),
-                newMenu.getOrderableStatus());
-// save 메서드를 통해 insert 시 정수 값 반환되지 않음
-        // 정수값 반환 받으려면 직접 native 쿼리로 작성해야 함
-        repository.save(insertMenu);
+        // 지금까지와 반대로 DTO타입을 Entity로 변환
+        // DML 구문에서는 DTO타입을 Entity로 변환해야
+        // Persistence Context == JPA 가 관리를 해준다.
+        repository.save(modelMapper.map(newMenu, Menu.class));
     }
 
     @Transactional // 인서트하고 정수 반환받아보고 싶어서 해봤는데 비효율적.. 컷
@@ -134,5 +143,30 @@ public class MenuService {
 
         Menu menu = repository.findById(menuCode).orElseThrow();
         repository.delete(menu);
+    }
+
+    @Transactional
+    public void modifyMenu(MenuDTO modifyMenu) {
+        // JPA에서는 update가 필요 없음 → Entity에서 바꿔주면 됨.
+        // 하나의 메뉴를 특정하기 위해 menuCode 이용
+
+        /* update는 엔티티를 특정해서 필드의 값을 변경해주면 된다. */
+        /* JPA는 변경 감지 기능이 있으므로 하나의 엔티티를 특정하여
+        *   필드 값을 변경하면 변경된 값으로 flush(반영) 해줌. */
+
+        // 엔티티 찾기(특정하기) (modifyMenuDTO에 있는 menuCode 꺼내기)
+        Menu foundMenu =
+                repository.findById(modifyMenu.getMenuCode())
+                          .orElseThrow(IllegalArgumentException::new);
+                        // menuCode가 없으면 예외 발생 시킬거다.
+
+        System.out.println("특정된 메뉴(찾은 Entity 값) = " + foundMenu);
+        /* 값 수정하는 방식
+        * 1. setter를 통한 update - 지양 방식(누구나 접근할 수 있으므로) */
+//        foundMenu.setMenuName(modifyMenu.getMenuName());
+//        System.out.println("setter 사용 후 foundMenu = " + foundMenu);
+        // → menuName만 수정된 이름으로 변경
+
+        /* 2. @Builder를 통해 update 기능 : Menu → @Builder */
     }
 }

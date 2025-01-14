@@ -97,10 +97,13 @@ public class MenuController {
     }
 
     @PostMapping("/regist")
-    public void newMenuRegist(@ModelAttribute MenuDTO newMenu) {
+    public String newMenuRegist(@ModelAttribute MenuDTO newMenu) {
+        System.out.println("view에서 전달받은 newMenu = " + newMenu);
 
         menuService.registNewMenu(newMenu);
 
+        return "redirect:/menu/list"; // @GetMapping("/list") // 메뉴 전체 조회하기
+        // 얘한테 다시 요청 보내기
     }
 
     @PostMapping("/regist2") // 정수 반환받아보고 싶어서 해봤는데 완전 비효율적. 캇트
@@ -117,10 +120,23 @@ public class MenuController {
     }
 
     @GetMapping("/delete")
-    public void deletePage(){}
+    public void deletePage() {
+    }
 
     @PostMapping("/delete")
-    public void deleteMenuCode(@RequestParam int menuCode){
+    public void deleteMenuCode(@RequestParam int menuCode) {
         menuService.deleteService(menuCode);
+    }
+
+    @GetMapping("/modify")
+    public void modifyPage() {
+    }
+
+    @PostMapping("/modify")
+    public String modifyMenu(@ModelAttribute MenuDTO modifyMenu){
+        System.out.println("수정할 정보 modifyMenu 잘 넘어오는지 = " + modifyMenu);
+        menuService.modifyMenu(modifyMenu);
+
+        return "menu/modify";
     }
 }
