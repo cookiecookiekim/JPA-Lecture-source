@@ -31,6 +31,19 @@ public interface MenuRepository extends JpaRepository<Menu,Integer> {
             , nativeQuery = true)
     int insertNewMenu2(Menu insertMenu2);
 
+//    @Query(value = "SELECT * FROM TBL_MENU WHERE CATEGORY_CODE = :categoryCode"
+//    ,nativeQuery = true)
+//    List<Menu> findMenuByCategoryCode(@Param("categoryCode") int categoryCode);
+
+    @Query(value = "SELECT p FROM menu p join fetch p.category WHERE p.category = :categoryCode")
+    List<Menu> findMenuByCategoryCode(@Param("categoryCode") int categoryCode);
+
+
+    @Query(value = "SELECT a.menu_code, a.menu_name, a.menu_price, b.category_code, a.orderable_status, b.category_name FROM TBL_MENU A JOIN TBL_CATEGORY B ON (A.CATEGORY_CODE = B.CATEGORY_CODE)"
+                    ,nativeQuery = true)
+    List<Menu> joinSelect();
+
+
 //    @Modifying
 //    @Query(value = "INSERT INTO TBL_MENU" +
 //            "(menu_name, menu_price, category_code, orderable_status)" +

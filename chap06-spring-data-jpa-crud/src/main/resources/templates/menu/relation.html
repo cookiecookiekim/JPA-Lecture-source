@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<!--    <h1>연관관계를 이용한 조회</h1>-->
+<!--    <h2>Category에 속한 모든 Menu 항목을 조회해보기</h2>-->
+<!--    <h3>Category Code를 입력 받아 카테고리에 속한 모든 메뉴 반환</h3>-->
+
+<!--    <form action="/menu/relation" method="post">-->
+<!--        <label>카테고리 코드 : </label>-->
+<!--        <input type="number" name="categoryCode">-->
+<!--        <input type="submit" value="제출">-->
+<!--    </form>-->
+
+<!--    <h3 th:text="|카테고리 코드 ${categoryCode}로 조회한 목록|"></h3>-->
+
+<!--    <table>-->
+<!--        <tr>-->
+<!--            <th>메뉴번호</th>-->
+<!--            <th>메뉴이름</th>-->
+<!--            <th>메뉴가격</th>-->
+<!--            <th>카테고리코드</th>-->
+<!--            <th>판매상태</th>-->
+<!--        </tr>-->
+<!--        <tr th:each="menu : ${menuList}">-->
+<!--            <td th:text="${menu.menuCode}"></td>-->
+<!--            <td th:text="${menu.menuName}"></td>-->
+<!--            <td th:text="${menu.menuPrice}"></td>-->
+<!--            <td th:text="${menu.categoryCode}"></td>-->
+<!--            <td th:text="${menu.orderableStatus}"></td>-->
+<!--        </tr>-->
+<!--    </table>-->
+
+    <h1>연관관계를 이용한 조회</h1>
+    <h2>Join해서 불러오기</h2>
+    <table>
+        <tr>
+            <th>메뉴번호</th>
+            <th>메뉴이름</th>
+            <th>메뉴가격</th>
+            <th>카테고리코드</th>
+            <th>판매상태</th>
+        </tr>
+        <tr th:each="menu : ${joinResult}">
+            <td th:text="${menu.menuCode}"></td>
+            <td th:text="${menu.menuName}"></td>
+            <td th:text="${menu.menuPrice}"></td>
+            <td th:text="${menu.categoryDTO.categoryCode}"></td>
+            <td th:text="${menu.categoryDTO.categoryName}"></td>
+            <td th:text="${menu.categoryDTO.refCategoryCode}"></td>
+            <td th:text="${menu.orderableStatus}"></td>
+        </tr>
+    </table>
+</body>
+</html>

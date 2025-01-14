@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -96,7 +97,7 @@ public class MenuService {
         System.out.println("서비스 categoryList = " + categoryList);
         return categoryList.stream().map(
                 category -> modelMapper.map(category, CategoryDTO.class))
-                .collect(Collectors.toList());
+                                        .collect(Collectors.toList());
     }
 
 //    @Transactional // 이건 내가 한 인서트 방식
@@ -120,23 +121,23 @@ public class MenuService {
         repository.save(modelMapper.map(newMenu, Menu.class));
     }
 
-    @Transactional // 인서트하고 정수 반환받아보고 싶어서 해봤는데 비효율적.. 컷
-    public int registNewMenu2(MenuDTO newMenu) {
-
-        Menu insertMenu2 = new Menu(
-                newMenu.getMenuCode(),
-                newMenu.getMenuName(),
-                newMenu.getMenuPrice(),
-                newMenu.getCategoryCode(),
-                newMenu.getOrderableStatus()
-        );
-
-        System.out.println("insertMenu2 = " + insertMenu2);
-        int result = repository.insertNewMenu2(insertMenu2);
-
-        System.out.println("result = " + result);
-        return result >= 1 ? 1 : 0;
-    }
+//    @Transactional // 인서트하고 정수 반환받아보고 싶어서 해봤는데 비효율적.. 컷
+//    public int registNewMenu2(MenuDTO newMenu) {
+//
+//        Menu insertMenu2 = new Menu(
+//                newMenu.getMenuCode(),
+//                newMenu.getMenuName(),
+//                newMenu.getMenuPrice(),
+//                newMenu.getCategoryCode(),
+//                newMenu.getOrderableStatus()
+//        );
+//
+//        System.out.println("insertMenu2 = " + insertMenu2);
+//        int result = repository.insertNewMenu2(insertMenu2);
+//
+//        System.out.println("result = " + result);
+//        return result >= 1 ? 1 : 0;
+//    }
 
     @Transactional
     public void deleteMenu(int menuCode) {
@@ -179,8 +180,67 @@ public class MenuService {
 
         /* 3. Entity 내부에 Builder 패턴을 구현 : Menu의 menuName,builder 메서드 */
         // comment → 2번 방식이 가장 편한 방식인데 내부적으로 3번 처럼 돌고 있다고 인지
-        foundMenu = foundMenu.menuName(modifyMenu.getMenuName())
-                .builder();
-        repository.save(foundMenu);
+//        foundMenu = foundMenu.menuName(modifyMenu.getMenuName())
+//                .builder();
+//        repository.save(foundMenu);
+    }
+
+    ///////// 연관 관계 연습
+    // 이거 포기
+//    public List<MenuDTO> categoryCodeMenuSelect(int categoryCode) {
+//        Category category = categoryRepository.findById(categoryCode).orElseThrow();
+//        System.out.println("category code로 조회한 애들 = " + category);
+//
+//        List<Menu> categoryCodeBymenu = repository.findMenuByCategoryCode(category.getCategoryCode());
+//        System.out.println("서비스에서 엔티티 잘 조회됐나 = " + categoryCodeBymenu);
+//
+//        return categoryCodeBymenu.stream().map(
+//                menu -> modelMapper.map(menu, MenuDTO.class))
+//                .collect(Collectors.toList());
+//    }
+
+    public List<MenuDTO> joinSelect() {
+        List<Menu> joinResult = repository.joinSelect();
+        System.out.println("서비스에서 잘 조회되는지 = " + joinResult);
+
+
+//        List<MenuDTO> menuList = new ArrayList<>();
+//
+//        joinResult.forEach(result -> {
+//            MenuDTO menuDTO = new MenuDTO();
+//            CategoryDTO categoryDTO = new CategoryDTO();
+//            menuDTO.setMenuCode(result.getMenuCode());
+//            menuDTO.setMenuName(result.getMenuName());
+//            menuDTO.setMenuPrice(result.getMenuPrice());
+//            menuDTO.setOrderableStatus(result.getOrderableStatus());
+////            menuDTO.setCategoryDTO(
+////                    categoryDTO.setCategoryCode(result.getCategory().getCategoryCode()),
+////                    categoryDTO.setCategoryName(result.getCategory().getCategoryName()),
+////                    categoryDTO.setRefCategoryCode(result.getCategory().getRefCategoryCode());
+////            );
+//            categoryDTO.setCategoryCode(result.getCategory().getCategoryCode());
+//            categoryDTO.setCategoryName(result.getCategory().getCategoryName());
+//            categoryDTO.setRefCategoryCode(result.getCategory().getRefCategoryCode());
+//            menuDTO.setCategoryDTO(categoryDTO);
+//
+//            menuList.add(menuDTO);
+//        });
+
+//        joinResult.forEach(result -> System.out.println("서비스겟카테고리"+result.getCategory().getCategoryName()));
+
+        System.out.println("test" + joinResult.get(0).getCategory().getCategoryName());
+
+        List<MenuDTO> menuList = joinResult.stream().map(
+                        join -> modelMapper.map(join, MenuDTO.class))
+                .collect(Collectors.toList());
+
+        for(MenuDTO menu : menuList) {
+            System.out.println(menu.getCategoryDTO().getCategoryCode());
+            System.out.println(menu.getCategoryDTO().getCategoryName());
+//            System.out.println(menu.getCategoryDTO().getRefCategoryCode());
+        }
+
+        return menuList;
+//        return menuList;
     }
 }

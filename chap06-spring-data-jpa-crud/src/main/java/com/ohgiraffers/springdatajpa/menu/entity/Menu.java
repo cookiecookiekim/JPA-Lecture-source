@@ -3,7 +3,7 @@ package com.ohgiraffers.springdatajpa.menu.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
+@Entity (name = "menu")
 @Table(name = "tbl_menu")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,8 +24,12 @@ public class Menu {
     @Column(name = "menu_price")
     private int menuPrice;
 
-    @Column(name = "category_code")
-    private int categoryCode;
+//    @Column(name = "category_code")
+//    private int categoryCode;
+
+    @ManyToOne (cascade = CascadeType.PERSIST)
+    @JoinColumn (name = "category_code")
+    private Category category;
 
     @Column(name = "orderable_status")
     private String orderableStatus;
@@ -37,12 +41,12 @@ public class Menu {
 //    }
 
     /* 3. Builder 패턴 직접 구현 */
-    public Menu menuName(String var){ // 변수 하나 받는다고 가정
-        this.menuName = var;
-        return this; // 예를들어 이름 들어오면 코드, 가격 등 동일한데 이름만 바뀐 채로 리턴
-                // 온 애들로 덮어 씌우고 리턴해주는 방식
-    }
-    public Menu builder(){
-        return new Menu(menuCode,menuName,menuPrice,categoryCode,orderableStatus);
-    }
+//    public Menu menuName(String var){ // 변수 하나 받는다고 가정
+//        this.menuName = var;
+//        return this; // 예를들어 이름 들어오면 코드, 가격 등 동일한데 이름만 바뀐 채로 리턴
+//                // 온 애들로 덮어 씌우고 리턴해주는 방식
+//    }
+//    public Menu builder(){
+//        return new Menu(menuCode,menuName,menuPrice,categoryCode,orderableStatus);
+//    }
 }

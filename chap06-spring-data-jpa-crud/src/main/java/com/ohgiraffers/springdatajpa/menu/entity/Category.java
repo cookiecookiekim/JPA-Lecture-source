@@ -1,20 +1,18 @@
 package com.ohgiraffers.springdatajpa.menu.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity
+import java.util.List;
+
+@Entity (name = "category")
 @Table(name = "tbl_category")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@ToString
 public class Category {
 
     @Id
@@ -26,4 +24,17 @@ public class Category {
 
     @Column(name = "ref_category_code")
     private Integer refCategoryCode;
+
+    @OneToMany(mappedBy = "category")
+    private List<Menu> menuList;
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "categoryCode=" + categoryCode +
+                ", categoryName='" + categoryName + '\'' +
+                ", refCategoryCode=" + refCategoryCode +
+//                ", menuList=" + menuList +
+                '}';
+    }
 }

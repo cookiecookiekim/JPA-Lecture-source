@@ -106,18 +106,18 @@ public class MenuController {
         // 얘한테 다시 요청 보내기
     }
 
-    @PostMapping("/regist2") // 정수 반환받아보고 싶어서 해봤는데 완전 비효율적. 캇트
-    public String newMenuRegist2(@ModelAttribute MenuDTO newMenu) {
-
-        System.out.println("newMenu = " + newMenu);
-        int result = menuService.registNewMenu2(newMenu);
-
-        if (result >= 1) {
-            return "menu/regist2";
-        } else {
-            return "main/main";
-        }
-    }
+//    @PostMapping("/regist2") // 정수 반환받아보고 싶어서 해봤는데 완전 비효율적. 캇트
+//    public String newMenuRegist2(@ModelAttribute MenuDTO newMenu) {
+//
+//        System.out.println("newMenu = " + newMenu);
+//        int result = menuService.registNewMenu2(newMenu);
+//
+//        if (result >= 1) {
+//            return "menu/regist2";
+//        } else {
+//            return "main/main";
+//        }
+//    }
 
     @GetMapping("/modify")
     public void modifyPage() {
@@ -141,5 +141,29 @@ public class MenuController {
         menuService.deleteMenu(menuCode);
 
         return "redirect:/menu/list";
+    }
+
+    //// 아래부터 연관관계 이용해서 조회해보기
+//    @GetMapping("/relation")
+//    public void relationPage(){}
+
+//    @PostMapping("/relation")
+//    public String categoryCodeMenuSelect(@RequestParam int categoryCode, Model model){
+//        System.out.println("컨트롤러 카테고리코드 잘 넘어오나 = " + categoryCode);
+//
+//        List<MenuDTO> menuList = menuService.categoryCodeMenuSelect(categoryCode);
+//        System.out.println("(컨트롤러)서비스에서 조회해온 애 확인 = " + menuList);
+//
+//        model.addAttribute("menuList", menuList);
+//        model.addAttribute("categoryCode", categoryCode);
+//
+//        return "redirect:/menu/relation" + categoryCode;
+//    }
+    @GetMapping("/relation")
+    public String joinSelect(Model model){
+        List<MenuDTO> joinResult = menuService.joinSelect();
+        System.out.println("컨트롤러에서 MenuDTO 타입으로 잘 왔는지 = " + joinResult);
+        model.addAttribute("joinResult",joinResult);
+        return "menu/relation";
     }
 }
